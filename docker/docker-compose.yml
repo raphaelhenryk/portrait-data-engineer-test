@@ -72,7 +72,7 @@ services:
     command: bash -c "airflow scheduler"
 
   dbt:
-    image: fishtownanalytics/dbt:1.7.0
+    image: ghcr.io/dbt-labs/dbt-postgres:1.7.4
     container_name: dbt
     depends_on:
       - postgres_dw

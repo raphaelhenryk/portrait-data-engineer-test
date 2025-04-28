@@ -29,7 +29,6 @@ wheels/
 *~
 
 # Environment
-.env
 .venv
 venv/
 ENV/
@@ -41,6 +40,6 @@ postgres_data/
 .DS_Store
 Thumbs.db
 
-#Terraform
-terraform/envs/dev/.terraform
+# Terraform
 terraform/envs/dev/*lock*
+terraform/envs/dev/.terraform
