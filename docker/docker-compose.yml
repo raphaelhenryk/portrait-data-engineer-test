@@ -1,0 +1,88 @@
+version: "3.8"
+
+services:
+
+  # Postgres for Airflow Metadata
+  postgres_airflow:
+    image: postgres:13
+    container_name: postgres_airflow
+    restart: always
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow_metadata_${ENVIRONMENT}
+    ports:
+      - "5433:5432"   # expose on 5433 if you want to avoid conflict
+    volumes:
+      - postgres_airflow_data:/var/lib/postgresql/data
+
+  # Postgres for Data Warehouse (dbt)
+  postgres_dw:
+    image: postgres:13
+    container_name: postgres_dw
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: healthcare_${ENVIRONMENT}
+    ports:
+      - "5434:5432"  # expose on 5434 if you want to access externally
+    volumes:
+      - postgres_dw_data:/var/lib/postgresql/data
+
+  airflow-webserver:
+    build:
+      context: ../docker
+      dockerfile: Dockerfile-airflow
+    container_name: airflow-webserver
+    restart: always
+    depends_on:
+      - postgres_airflow
+    environment:
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres_airflow/airflow_metadata_${ENVIRONMENT}
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__WEBSERVER__RBAC: "True"
+      _AIRFLOW_WWW_USER_USERNAME: admin
+      _AIRFLOW_WWW_USER_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../airflow/dags:/opt/airflow/dags
+      - ../airflow/plugins:/opt/airflow/plugins
+      - ../airflow/config:/opt/airflow/config
+    command: >
+      bash -c "airflow db migrate &&
+               airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com &&
+               airflow webserver"
+
+  airflow-scheduler:
+    build:
+      context: ../docker
+      dockerfile: Dockerfile-airflow
+    container_name: airflow-scheduler
+    restart: always
+    depends_on:
+      - airflow-webserver
+    environment:
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres_airflow/airflow_metadata_${ENVIRONMENT}
+    volumes:
+      - ../airflow/dags:/opt/airflow/dags
+      - ../airflow/plugins:/opt/airflow/plugins
+      - ../airflow/config:/opt/airflow/config
+    command: bash -c "airflow scheduler"
+
+  dbt:
+    image: fishtownanalytics/dbt:1.7.0
+    container_name: dbt
+    depends_on:
+      - postgres_dw
+    environment:
+      DBT_ENVIRONMENT: ${ENVIRONMENT}
+    volumes:
+      - ../dbt:/dbt
+    working_dir: /dbt
+    entrypoint: ["tail", "-f", "/dev/null"]
+
+volumes:
+  postgres_airflow_data:
+  postgres_dw_data:

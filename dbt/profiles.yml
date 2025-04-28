@@ -1,0 +1,32 @@
+portrait_data_engineer:
+  target: "{{ env_var('DBT_ENVIRONMENT', 'dev') }}"
+  outputs:
+    dev:
+      type: postgres
+      host: postgres_dw          
+      user: postgres
+      password: postgres
+      dbname: healthcare_dev
+      schema: public
+      threads: 2
+      port: 5432
+
+    stg:
+      type: postgres
+      host: postgres_dw
+      user: postgres
+      password: postgres
+      dbname: healthcare_stg
+      schema: public
+      threads: 2
+      port: 5432
+
+    prod:
+      type: postgres
+      host: postgres_dw
+      user: postgres
+      password: postgres
+      dbname: healthcare_prod
+      schema: public
+      threads: 2
+      port: 5432

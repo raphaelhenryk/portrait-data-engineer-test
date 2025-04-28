@@ -1,0 +1,38 @@
+Can you read this page? 
+https://github.com/ellamd/portrait-data-engineer-test/tree/main. 
+Work as a Data Engineer, provide the step by step to execute 
+this project on AWS cloud, using the similar services to provide 
+the expected functionalities. Use the few number of service as possible, 
+and consider using only PostgreSQL as DB. The CSV must be stored into s3. 
+Use Airflow and dbt also into the containers. The code will be developed 
+locally in my machine, and must be uploaded and run into the cloud services. 
+Create documentation, terraform scripts, upload scripts and cicd scripts. 
+Use only one container service for developing the pipeline, like EC2 
+(and use all the services deployed on it). 
+I dont want to install anything in my machine. In aws, use only EC2 and S3.
+
+First, create a folder structure to my projec, with all mkdir commands.
+
+start creating the Terraform scripts. Ensure that The configuration VPN, 
+SEcurity Groups and vpc are aligned. DO it with less effort possible to configure 
+manually.
+
+what does ir means the variables -var "key_pair_name=your-key-name" 
+-var "bucket_name=your-bucket-name" ? There is a way to create it 
+without its declaration?
+
+include the best praticces to create diferents environments 
+if needed, like, dev prod, stc. Do it for all systems within ec2, 
+including airflow, dbt and also postgres. And also allow that 
+all projects artefacts code like airflow, dbt and postgres be 
+created with the option to choose the environment when it needed.
+
+create separeted instances os postgress, one for airflow, 
+other for data wharehousing.
+
+----------//----------//----------//----------//----------
+
+Create an Airflow Connection UI setup for S3 instead of hardcoding credentials (more security)
+Add dbt run commands automatically at the end of DAG
+Add logging improvements in scripts
+Add retries in Airflow tasks for robustness
