@@ -1,9 +1,21 @@
+
 FROM apache/airflow:2.9.1
 
 USER root
 
-RUN apt-get update && apt-get install -y gcc libpq-dev
+# Install system dependencies needed to compile psycopg2 and pandas
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libpq-dev \
+    python3-dev \
+    build-essential \
+    libssl-dev \
+    libffi-dev \
+    curl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
+# Install Python packages
 RUN pip install --no-cache-dir pandas boto3 psycopg2-binary
 
 USER airflow
