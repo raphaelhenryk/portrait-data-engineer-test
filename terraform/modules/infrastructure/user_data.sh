@@ -27,6 +27,8 @@ cd portrait-data-engineer-test
 
 # Change permissions
 sudo chown -R ubuntu:ubuntu /home/ubuntu/portrait-data-engineer-test
+sudo usermod -aG docker $USER
+newgrp docker
 
 # Start Docker Compose (for Airflow, dbt, Postgres)
 docker-compose -f docker/docker-compose.yml up -d
