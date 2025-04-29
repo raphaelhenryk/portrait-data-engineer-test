@@ -43,3 +43,5 @@ Thumbs.db
 # Terraform
 terraform/envs/dev/*lock*
 terraform/envs/dev/.terraform
+terraform/envs/dev/terraform.tfstate
+terraform/envs/dev/terraform.tfstate.backup
