@@ -1,15 +1,39 @@
 import boto3
 import os
+import logging
 
-def upload_file_to_s3(file_path, bucket_name, object_name=None):
+from pathlib import Path
+from botocore.exceptions import ClientError
+
+# Setup logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Define constants
+BUCKET_NAME = "dev-portrait-data-engineer-bucket-20250427"
+BASE_FOLDER = "/home/ubuntu/portrait-data-engineer-test/sample_datasets"
+S3_PREFIX = "raw/"
+
+def upload_file(file_path: Path):
+    """Upload a file to S3 under raw/ folder."""
+    s3_key = f"{S3_PREFIX}{file_path.name}"
     s3_client = boto3.client('s3')
-    if object_name is None:
-        object_name = os.path.basename(file_path)
-    s3_client.upload_file(file_path, bucket_name, object_name)
-    print(f"Uploaded {file_path} to s3://{bucket_name}/{object_name}")
+
+    try:
+        logging.info(f"Uploading {file_path} to s3://{BUCKET_NAME}/{s3_key}")
+        s3_client.upload_file(str(file_path), BUCKET_NAME, s3_key)
+        logging.info(f"Upload complete: {s3_key}")
+    except ClientError as e:
+        logging.error(f"Failed to upload {file_path.name}: {e}")
+
+def upload_all_csvs():
+    csv_files = list(Path(BASE_FOLDER).glob("*.csv"))
+    
+    if not csv_files:
+        logging.warning("No CSV files found to upload.")
+        return
+
+    for file_path in csv_files:
+        upload_file(file_path)
 
 if __name__ == "__main__":
-    file_path = os.getenv("CSV_OUTPUT_PATH", "/tmp/sample_data.csv")
-    bucket_name = os.getenv("S3_BUCKET_NAME")
-    object_name = os.getenv("S3_OBJECT_NAME", "sample_data.csv")
-    upload_file_to_s3(file_path, bucket_name, object_name)
+    upload_all_csvs()
