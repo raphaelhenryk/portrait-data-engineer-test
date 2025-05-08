@@ -22,3 +22,8 @@ variable "aws_region" {
   description = "AWS region"
   type        = string
 }
+
+variable "environment" {
+  description = "Project environment"
+  type        = string
+}

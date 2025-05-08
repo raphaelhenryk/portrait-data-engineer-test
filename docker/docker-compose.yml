@@ -44,12 +44,16 @@ services:
       AIRFLOW__WEBSERVER__RBAC: "True"
       _AIRFLOW_WWW_USER_USERNAME: admin
       _AIRFLOW_WWW_USER_PASSWORD: admin
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
     ports:
       - "8080:8080"
     volumes:
       - ../airflow/dags:/opt/airflow/dags
       - ../airflow/plugins:/opt/airflow/plugins
       - ../airflow/config:/opt/airflow/config
+      - ../scripts:/opt/airflow/scripts
+      - ../sample_datasets:/opt/airflow/sample_datasets
     command: >
       bash -c "airflow db migrate &&
                airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com &&
@@ -65,10 +69,14 @@ services:
       - airflow-webserver
     environment:
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres_airflow/airflow_metadata_${ENVIRONMENT}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
     volumes:
       - ../airflow/dags:/opt/airflow/dags
       - ../airflow/plugins:/opt/airflow/plugins
       - ../airflow/config:/opt/airflow/config
+      - ../scripts:/opt/airflow/scripts
+      - ../sample_datasets:/opt/airflow/sample_datasets
     command: bash -c "airflow scheduler"
 
   dbt:

@@ -5,4 +5,5 @@ module "infrastructure" {
   bucket_name   = var.bucket_name
   aws_region    = var.aws_region
   instance_type = var.instance_type
+  environment   = var.environment
 }

@@ -7,3 +7,8 @@ output "bucket_name" {
   description = "Name of the S3 Bucket"
   value       = aws_s3_bucket.main_bucket.id
 }
+
+output "environment" {
+  description = "Project environment"
+  value       = var.environment
+}

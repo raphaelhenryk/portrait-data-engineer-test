@@ -30,9 +30,23 @@ created with the option to choose the environment when it needed.
 create separeted instances os postgress, one for airflow, 
 other for data wharehousing.
 
+create a log file generated when the user_data.sh is executed by terraform.
+
+Next step, the upload_file_to_s3.py must read all the csvs files saved 
+within the sample_datasets and save it in amazon s3 bucket previously created. 
+The name and environment of the bucket was already defined: 
+dev-portrait-data-engineer-bucket-20250427, so, the subfolder of this initial 
+file must be the raw subfolder: dev-portrait-data-engineer-bucket-20250427/raw/file.csv. 
+The files we already cloned from git inside the folder portrait-data-engineer-test/sample_datasets.
 ----------//----------//----------//----------//----------
 
 Create an Airflow Connection UI setup for S3 instead of hardcoding credentials (more security)
 Add dbt run commands automatically at the end of DAG
 Add logging improvements in scripts
 Add retries in Airflow tasks for robustness
+
+ssh -i ec2_key.pem ubuntu@54.81.91.140
+git pull origin main
+
+cd docker
+docker-compose build --no-cache
