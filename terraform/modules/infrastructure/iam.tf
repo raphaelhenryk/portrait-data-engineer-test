@@ -25,12 +25,3 @@ resource "aws_iam_access_key" "s3_user_key" {
   user = aws_iam_user.s3_uploader.name
 }
 
-output "aws_access_key_id" {
-  value     = aws_iam_access_key.s3_user_key.id
-  sensitive = true
-}
-
-output "aws_secret_access_key" {
-  value     = aws_iam_access_key.s3_user_key.secret
-  sensitive = true
-}
