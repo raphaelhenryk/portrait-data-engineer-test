@@ -59,6 +59,7 @@ cd ../../../docker
 echo "AWS_ACCESS_KEY_ID=$ACCESS_KEY" > .env
 echo "AWS_SECRET_ACCESS_KEY=$SECRET_KEY" >> .env
 echo "ENVIRONMENT=$ENVIRONMENT" >> .env
+chown ubuntu:ubuntu /.env
 
 echo ".env file generated successfully."
 
