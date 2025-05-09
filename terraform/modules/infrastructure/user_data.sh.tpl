@@ -56,9 +56,9 @@ ENVIRONMENT=$(terraform output -raw environment)
 
 cd ../../../docker
 
-echo "AWS_ACCESS_KEY_ID=$ACCESS_KEY" > .env
-echo "AWS_SECRET_ACCESS_KEY=$SECRET_KEY" >> .env
-echo "ENVIRONMENT=$ENVIRONMENT" >> .env
+echo "AWS_ACCESS_KEY_ID=${aws_access_key_id}" > .env
+echo "AWS_SECRET_ACCESS_KEY=${aws_secret_access_key}" >> .env
+echo "ENVIRONMENT=${environment}" >> .env
 chown ubuntu:ubuntu /.env
 
 echo ".env file generated successfully."
