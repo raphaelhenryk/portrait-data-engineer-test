@@ -10,7 +10,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 # Define constants
 BUCKET_NAME = "dev-portrait-data-engineer-bucket-20250427"
-BASE_FOLDER = "/home/ubuntu/portrait-data-engineer-test/sample_datasets"
+#BASE_FOLDER = "/home/ubuntu/portrait-data-engineer-test/sample_datasets"
+BASE_FOLDER = "/opt/airflow/sample_datasets"
 S3_PREFIX = "raw/"
 
 def upload_file(file_path: Path):

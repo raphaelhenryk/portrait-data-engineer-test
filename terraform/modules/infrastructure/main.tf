@@ -1,7 +1,7 @@
 # VPC
-variable "availability_zones" {
-  default = ["us-east-1a"]
-}
+#variable "availability_zones" {
+#  default = ["us-east-1a"]
+#}
 
 resource "aws_vpc" "main_vpc" {
   cidr_block = "10.0.0.0/16"
@@ -13,11 +13,11 @@ resource "aws_vpc" "main_vpc" {
 
 # Subnet
 resource "aws_subnet" "main_subnet" {
-  count                   = length(var.availability_zones)
+  #count                   = length(var.availability_zones)
   vpc_id                  = aws_vpc.main_vpc.id
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
-  availability_zone = var.availability_zones[count.index]
+  #availability_zone = var.availability_zones[count.index]
 
   tags = {
     Name = "${var.project_name}-subnet"
@@ -116,7 +116,7 @@ resource "aws_s3_bucket_public_access_block" "public_access" {
 
 # EC2 Instance
 resource "aws_instance" "main_ec2" {
-  count         = length(var.availability_zones)
+  #count         = length(var.availability_zones)
   ami           = "ami-053b0d53c279acc90" # Ubuntu 22.04 LTS in us-east-1
   instance_type = var.instance_type
   subnet_id     = aws_subnet.main_subnet.id
