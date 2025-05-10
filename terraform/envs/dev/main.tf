@@ -6,4 +6,5 @@ module "infrastructure" {
   aws_region    = var.aws_region
   instance_type = var.instance_type
   environment   = var.environment
+  ec2_public_ip = var.ec2_public_ip
 }
