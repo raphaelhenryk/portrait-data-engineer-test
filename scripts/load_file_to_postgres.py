@@ -30,9 +30,9 @@ if __name__ == "__main__":
     db_params = {
         "host": os.getenv("POSTGRES_HOST", "postgres_dw"),
         "port": 5432,
-        "user": os.getenv("POSTGRES_USER", "dwuser"),
-        "password": os.getenv("POSTGRES_PASSWORD", "dwpassword"),
-        "dbname": os.getenv("POSTGRES_DB", "dw_dev")
+        "user": os.getenv("POSTGRES_USER", "postgres"),
+        "password": os.getenv("POSTGRES_PASSWORD", "postgres"),
+        "dbname": os.getenv("POSTGRES_DB", "healthcare_dev")
     }
     table_name = os.getenv("POSTGRES_TABLE", "raw_users")
     load_csv_to_postgres(csv_path, table_name, db_params)

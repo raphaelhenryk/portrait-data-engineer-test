@@ -1,0 +1,20 @@
+name: Container Health Check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Health
+      uses: actions/checkout@v3
+
+
+    - name: Run Health Checks
+      run: |
+        ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+          docker ps --filter "health=unhealthy"
+          curl -u admin:admin http://localhost:8080/api/v1/health
+        EOF
