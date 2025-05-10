@@ -15,8 +15,7 @@ jobs:
 
     - name: Setup SSH
       run: |
-        mkdir -p ~/.ssh
-        chmod 444 ~/.ssh
+        mkdir -p ~/.ssh/
         echo "${{ secrets.EC2_SSH_KEY }}" >> ~/.ssh/id_ed25519
         chmod 600 ~/.ssh/id_ed25519
         ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
