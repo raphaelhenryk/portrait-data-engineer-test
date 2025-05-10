@@ -22,10 +22,10 @@ jobs:
 
     - name: Pull Code and Restart Services
       run: |
-        ssh -T ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+        ssh -T ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOT'
           cd /home/ubuntu/portrait-data-engineer-test
           git pull origin main
           cd docker
           docker-compose down
           docker-compose up -d
-        EOF
+        EOT
